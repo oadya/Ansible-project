@@ -1,0 +1,20 @@
+name: Releases
+
+on: 
+  push:
+    tags:
+    - '*'
+permissions: write-all
+
+jobs:
+
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    # gestion de mise du code
+    - name: Checkout submodules
+      run: git submodule update --init --recursive
+    - uses: ncipollo/release-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}

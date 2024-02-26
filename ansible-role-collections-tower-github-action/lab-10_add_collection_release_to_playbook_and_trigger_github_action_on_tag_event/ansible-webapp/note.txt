@@ -1,0 +1,7 @@
+télécharger la collection:
+
+ansible-galaxy install -r collections/requirements.yml
+
+
+déployer l'appli:
+ansible-playbook -i hosts nginx_webapp_playbook.yaml

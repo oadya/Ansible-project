@@ -1,0 +1,15 @@
+creation d'une collection
+-------------------------
+
+ansible-galaxy collection init namespace1.webapp
+
+cd webapp
+cd role
+
+git submodule add <repo git role nginx>
+
+git submodule add <repo git role webapp>
+
+git add
+git commit
+git push

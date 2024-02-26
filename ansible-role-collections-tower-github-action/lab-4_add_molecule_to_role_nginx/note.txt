@@ -1,0 +1,65 @@
+Molecule 
+--------
+permet de garantir les bonnes pratiques ansible en uilisant des lint(ansible lint, yaml lint)
+urilse Docker pour tester l'environnement provisionner 
+permet de stabiliser les roles
+permet de faire de la CI sur les roles en utilisant les fichiers:
+-converge: comment intaller le role dans le conteneur qui sera provisionner, indiqué le playbook qui sera invoqué lors du deploiement du role
+-molecule: indique dependence, drivir(docker, vagrant,), les lints check de syntaxe, plateforme, provisioner(ansible), verifier(ansible),scenario(test_sequence,..)
+-verify: utilise ansible pour lancer des tests (url,..)
+
+commandes
+---------
+molecule create
+molecule list (voir l'infra crée)
+molecule converge
+molecule test
+
+
+
+installation:
+-------------
+sudo apt-get update
+sudo apt -y install docker.io
+export DOCKER_HOST=tcp://docker:2375
+docker ps -a
+
+# install pip and molecule
+sudo apt install curl -y
+curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3
+# python3 -m pip install "molecule[ansible,docker,lint]"
+pip3 install ansible-lint==5.3.2 
+pip3 install molecule-docker==0.2.4
+pip3 install yamllint==1.26.1
+pip3 install molecule==3.0.3
+
+# Add molecule to path
+python3 -m site &> /dev/null && PATH="$PATH:`python3 -m site --user-base`/bin"
+
+# check tools versions
+ansible --version
+ansible-lint --version
+molecule --version
+
+
+creation du scenario molecule
+-----------------------------
+cd nginx
+molecule init scenario -r nginx --driver-name docker
+
+editer ensuite les fichiers
+
+-creer l'infra de test (creation de deux instances centos et ubuntu):
+molecule create  
+docker ps
+
+-lancer le role nginx (lancer le plabook dans les deux instances centos et ubuntu):
+molecule converge
+
+-lancer test final:
+molecule test
+
+
+
+
+
